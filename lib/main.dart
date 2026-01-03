@@ -14,10 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
-      home: HomeApp(),
+    return BlocProvider(
+      create: (context) {
+        return BatmanCubit();
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.darkTheme,
+        home: HomeApp(),
+      ),
     );
   }
 }
@@ -30,13 +35,12 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
-  final batmanCubit = BatmanCubit();
 
   @override
   Widget build(BuildContext context) {
+  final batmanCubit = BlocProvider.of<BatmanCubit>(context);
     return Scaffold(
       body: BlocBuilder<BatmanCubit, int>(
-        bloc: batmanCubit,
         builder: (context, state) {
           return Stack(
             alignment: Alignment.center,
@@ -59,7 +63,6 @@ class _HomeAppState extends State<HomeApp> {
           FloatingActionButton(
             onPressed: () {
               batmanCubit.incrementBatman();
-              setState(() {});
             },
             child: Icon(Icons.add),
           ),
@@ -67,7 +70,6 @@ class _HomeAppState extends State<HomeApp> {
           FloatingActionButton(
             onPressed: () {
               batmanCubit.decrementBatman();
-              setState(() {});
             },
             child: Icon(Icons.remove),
           ),
@@ -75,7 +77,6 @@ class _HomeAppState extends State<HomeApp> {
           FloatingActionButton(
             onPressed: () {
               batmanCubit.zeroBatman();
-              setState(() {});
             },
             child: Icon(Icons.exposure_zero),
           ),
