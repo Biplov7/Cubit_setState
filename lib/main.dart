@@ -3,6 +3,8 @@ import 'package:bloc_code/cubit/batman_cubit.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -32,19 +34,23 @@ class _HomeAppState extends State<HomeApp> {
 
   @override
   Widget build(BuildContext context) {
-    final batman = batmanCubit.state;
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          for (int i = 0; i < batman; i++)
-            Positioned(
-              top: Random().nextInt(400).toDouble(),
-              left: Random().nextInt(250).toDouble(),
-              child: Image.asset('assets/batman.png'),
-            ),
-        ],
+      body: BlocBuilder<BatmanCubit, int>(
+        bloc: batmanCubit,
+        builder: (context, state) {
+          return Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              for (int i = 0; i < state; i++)
+                Positioned(
+                  top: Random().nextInt(400).toDouble(),
+                  left: Random().nextInt(250).toDouble(),
+                  child: Image.asset('assets/batman.png'),
+                ),
+            ],
+          );
+        },
       ),
       appBar: AppBar(title: Text("Batman Cubit"), centerTitle: true),
       floatingActionButton: Column(

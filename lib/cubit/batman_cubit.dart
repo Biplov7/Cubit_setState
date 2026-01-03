@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BatmanCubit extends Cubit {
+class BatmanCubit extends Cubit<int> {
   BatmanCubit() : super(0);
 
   void incrementBatman() {
